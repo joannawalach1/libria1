@@ -1,5 +1,6 @@
 package pl.com.coders.libria1.domain;
 
+import jdk.jfr.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,7 +16,6 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     private String author;
 
@@ -25,6 +25,15 @@ public class Book {
     private LocalDateTime created;
     @UpdateTimestamp
     private LocalDateTime updated;
+
+    public Book(Long id, String title, String author, int amount, LocalDateTime created, LocalDateTime updated) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.amount = amount;
+        this.created = created;
+        this.updated = updated;
+    }
 
     public Book(String title, String author, int amount) {
         this.title = title;
