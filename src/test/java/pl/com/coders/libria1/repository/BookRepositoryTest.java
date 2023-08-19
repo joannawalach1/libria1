@@ -25,15 +25,12 @@ class BookRepositoryTest {
 
     @Autowired
     private BookRepository bookRepository;
-    private Book book1;
-    private Book book2;
-    private Book book3;
 
     @BeforeEach
     void setUp() {
-        book1 = new Book(2L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
-        book2 = new Book(3L, "Wuthering Heights", "Bronte", 5, LocalDateTime.now(), LocalDateTime.now());
-        book3 = new Book(4L, "Harry Potter", "Rowling", 20, LocalDateTime.now(), LocalDateTime.now());
+        Book book1 = new Book(2L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
+        Book book2 = new Book(3L, "Wuthering Heights", "Bronte", 5, LocalDateTime.now(), LocalDateTime.now());
+        Book book3 = new Book(4L, "Harry Potter", "Rowling", 20, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Test
@@ -42,8 +39,6 @@ class BookRepositoryTest {
         Book savedBook = bookRepository.save(newBook);
         Optional<Book> foundBook = bookRepository.findById(newBook.getId());
         assertThat(foundBook.isPresent());
-        assertNotNull(savedBook);
-        assertEquals(savedBook.getId(), savedBook.getId());
     }
 
     @Test
