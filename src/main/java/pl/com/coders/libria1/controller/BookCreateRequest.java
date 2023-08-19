@@ -6,6 +6,9 @@ public class BookCreateRequest {
     private String author;
     private int amount;
 
+    public BookCreateRequest(String title, String author, int amount) {
+    }
+
 
     public String getTitle() {
         return title;
