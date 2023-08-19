@@ -25,13 +25,11 @@ public class BookService {
     public BookView get(Long id) {
         Optional<Book> bookOpt = bookRepository.findById(id);
         Book book = bookOpt.orElseThrow(() -> new IllegalArgumentException("Book not exist with id : " + id));
-
         return bookMapper.toView(book);
     }
 
     public BookView create(BookCreateRequest bookCreateRequest) {
         Book book = bookMapper.toEntity(bookCreateRequest);
-
         return bookMapper.toView(bookRepository.save(book));
     }
 
@@ -41,7 +39,6 @@ public class BookService {
         for (Book book : books) {
             bookViews.add(bookMapper.toView(book));
         }
-
         return bookViews;
     }
 
@@ -58,6 +55,17 @@ public class BookService {
         book.setAuthor(bookUpdateRequest.getAuthor());
         book.setAmount(bookUpdateRequest.getAmount());
         return bookMapper.toView(bookRepository.save(book));
+    }
+
+    public BookView getByAuthor(String author) {
+        Optional<Book> bookOpt = bookRepository.findByAuthor(author);
+        Book book = bookOpt.orElseThrow(() -> new IllegalArgumentException("Book doesn't exist with Author : " + author));
+        return bookMapper.toView(book);
+    }
+    public BookView getByTitle(String title) {
+        Optional<Book> bookOpt = bookRepository.findByTitle(title);
+        Book book = bookOpt.orElseThrow(() -> new IllegalArgumentException("Book doesn't exist with title : " + title));
+        return bookMapper.toView(book);
     }
 }
 

@@ -5,6 +5,9 @@ public class BookUpdateRequest {
     private String author;
     private int amount;
 
+    public BookUpdateRequest(String newTitle, String newAuthor, int i) {
+    }
+
     public String getTitle() {
         return title;
     }

@@ -31,11 +31,19 @@ public class BookController {
     }
 
     @PutMapping("/book/{id}")
-    ResponseEntity<BookView> updatedBook(
+    public ResponseEntity<BookView> updatedBook(
             @PathVariable Long id,
             @RequestBody BookUpdateRequest bookUpdateRequest) {
         BookView updatedBook = bookService.update(id, bookUpdateRequest);
         return new ResponseEntity<>(updatedBook, HttpStatus.OK);
     }
+
+    @DeleteMapping("/book/{id}")
+    public ResponseEntity<Void> removedBook(
+            @PathVariable Long id) {
+        bookService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
 
