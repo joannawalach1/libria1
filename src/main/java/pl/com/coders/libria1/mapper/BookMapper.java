@@ -18,7 +18,7 @@ public interface BookMapper {
 
     @Mapping(target = "id", ignore = true)
     Book toEntity(BookCreateRequest bookCreateRequest);
-    @Mapping(target = "category", source = "category.id") // Mapowanie Long category na Category category
+
 
     @Mapping(target = "created", ignore = true)
     @Mapping(target = "updated", ignore = true)
