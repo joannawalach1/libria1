@@ -2,6 +2,7 @@ package pl.com.coders.libria1.controller;
 
 import pl.com.coders.libria1.domain.Category;
 
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 public class BookView {
@@ -9,23 +10,22 @@ public class BookView {
     private String title;
     private String author;
     private int amount;
-
+    @ManyToOne
+    private Category category;
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    public BookView(Long id, String title, String author, int amount, LocalDateTime created, LocalDateTime updated) {
+    public BookView(Long id, String title, String author, int amount, Category category, LocalDateTime created, LocalDateTime updated) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.amount = amount;
+        this.category = category;
         this.created = created;
         this.updated = updated;
     }
 
     public BookView() {
-    }
-
-    public BookView(Category category, String title, String author, int amount, LocalDateTime created, LocalDateTime updated) {
     }
 
     public Long getId() {
@@ -76,11 +76,9 @@ public class BookView {
         this.updated = updated;
     }
 
-    public void setCategory(Category category) {
-    }
+    public void setCategory(Category category) { this.category = category;}
 
-
-    public Long getCategory() {
-        return getCategory();
+    public Category getCategory() {
+        return category;
     }
 }

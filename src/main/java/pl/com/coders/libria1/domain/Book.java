@@ -1,13 +1,6 @@
 package pl.com.coders.libria1.domain;
 
-import jdk.jfr.Timestamp;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name = "BOOK")
@@ -18,27 +11,22 @@ public class Book {
     private Long id;
     private String title;
     private String author;
-
     private int amount;
-
-    @CreationTimestamp
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     private LocalDateTime created;
-    @UpdateTimestamp
+
     private LocalDateTime updated;
 
-    public Book(Long id, String title, String author, int amount, LocalDateTime created, LocalDateTime updated) {
+    public Book(Long id, String title, String author, int amount, Category category,  LocalDateTime created, LocalDateTime updated) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.amount = amount;
-        this.created = created;
-        this.updated = updated;
-    }
-
-    public Book(String title, String author, int amount) {
-        this.title = title;
-        this.author = author;
-        this.amount = amount;
+        this.category = category;
+        this.created = LocalDateTime.now();
+        this.updated = LocalDateTime.now();
     }
 
     public Book() {
@@ -90,5 +78,13 @@ public class Book {
 
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

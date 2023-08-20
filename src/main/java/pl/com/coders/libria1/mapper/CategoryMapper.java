@@ -12,14 +12,12 @@ import pl.com.coders.libria1.domain.Category;
 
         CategoryMapper instance = Mappers.getMapper((CategoryMapper.class));
 
-        @Mapping(target = "created", ignore = true)
-        @Mapping(target = "updated", ignore = true)
         CategoryView toView(Category category);
 
         @Mapping(target = "id", source = "categoryTitle")
         Category toEntity(CategoryView categoryView);
 
-        @Mapping(target = "id", source = "categoryCreateRequest.categoryTitle")
+        @Mapping(target = "categoryTitle", source = "categoryCreateRequest.categoryTitle")
         Category toEntity(CategoryCreateRequest categoryCreateRequest);
 
 

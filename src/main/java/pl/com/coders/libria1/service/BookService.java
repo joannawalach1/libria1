@@ -22,9 +22,9 @@ public class BookService {
     @Autowired
     private BookMapper bookMapper;
 
-    public BookView get(Long id) {
-        Optional<Book> bookOpt = bookRepository.findById(id);
-        Book book = bookOpt.orElseThrow(() -> new IllegalArgumentException("Book not exist with id : " + id));
+    public BookView getBookById(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + id));
         return bookMapper.toView(book);
     }
 
@@ -47,6 +47,10 @@ public class BookService {
             bookRepository.deleteById(id);
         } else throw new IllegalArgumentException("Book not exist with id : " + id);
     }
+
+    public void deleteAllBooks() {
+            bookRepository.deleteAll();
+        }
 
     public BookView update (Long id, BookUpdateRequest bookUpdateRequest) {
         Optional<Book> bookOpt = bookRepository.findById(id);

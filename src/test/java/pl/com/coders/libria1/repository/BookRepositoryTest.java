@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.com.coders.libria1.domain.Book;
+import pl.com.coders.libria1.domain.Category;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -27,22 +28,24 @@ class BookRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Book book1 = new Book(2L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
-        Book book2 = new Book(3L, "Wuthering Heights", "Bronte", 5, LocalDateTime.now(), LocalDateTime.now());
-        Book book3 = new Book(4L, "Harry Potter", "Rowling", 20, LocalDateTime.now(), LocalDateTime.now());
+        Category category = new Category();
+        category.setCategoryTitle("romance");
+        Book book1 = new Book(2L, "Anne of Green Gables", "Montgomery", 10,category, LocalDateTime.now(), LocalDateTime.now());
+        Book book2 = new Book(3L, "Wuthering Heights", "Bronte", 5, category, LocalDateTime.now(), LocalDateTime.now());
+        Book book3 = new Book(4L, "Harry Potter", "Rowling", 20, category, LocalDateTime.now(), LocalDateTime.now());
     }
 
     @Test
-    void testSaveBookAndFindById() {
-        Book newBook = new Book(4L, "Wiedzmin", "Stepkowski", 2, LocalDateTime.now(), LocalDateTime.now());
+    void testSaveBookAndFindById(Category category) {
+        Book newBook = new Book(4L, "Wiedzmin", "Stepkowski", 2, category, LocalDateTime.now(), LocalDateTime.now());
         Book savedBook = bookRepository.save(newBook);
         Optional<Book> foundBook = bookRepository.findById(newBook.getId());
         assertThat(foundBook.isPresent());
     }
 
     @Test
-    void testFindByAuthor() {
-        Book newBook = new Book(4L, "Wiedzmin", "Stepkowski", 2, LocalDateTime.now(), LocalDateTime.now());
+    void testFindByAuthor(Category category) {
+        Book newBook = new Book(4L, "Wiedzmin", "Stepkowski", 2, category, LocalDateTime.now(), LocalDateTime.now());
         Book savedBook = bookRepository.save(newBook);
         Optional<Book> foundBook = bookRepository.findByAuthor(savedBook.getAuthor());
         assertThat(foundBook.isPresent());
@@ -50,8 +53,8 @@ class BookRepositoryTest {
     }
 
     @Test
-    void testFindAll() {
-        Book newBook = new Book(4L, "Wiedzmin", "Sapkowski", 2, LocalDateTime.now(), LocalDateTime.now());
+    void testFindAll(Category category) {
+        Book newBook = new Book(4L, "Wiedzmin", "Sapkowski", 2, category, LocalDateTime.now(), LocalDateTime.now());
         Book savedBook = bookRepository.save(newBook);
         Iterable<Book> allBooks = bookRepository.findAll();
         Long count = allBooks.spliterator().getExactSizeIfKnown();
@@ -61,12 +64,12 @@ class BookRepositoryTest {
     }
 
     @Test
-    void testCount() {
+    void testCount(Category category) {
         List<Book> booksToSave = Arrays.asList(
-                new Book(2L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now()),
-                new Book(3L, "Wuthering Heights", "Bronte", 5, LocalDateTime.now(), LocalDateTime.now()),
-                new Book(4L, "Harry Potter", "Rowling", 20, LocalDateTime.now(), LocalDateTime.now()),
-                new Book(5L, "Wiedzmin", "Sapkowski", 2, LocalDateTime.now(), LocalDateTime.now())
+                new Book(2L, "Anne of Green Gables", "Montgomery", 10, category, LocalDateTime.now(), LocalDateTime.now()),
+                new Book(3L, "Wuthering Heights", "Bronte", 5, category, LocalDateTime.now(), LocalDateTime.now()),
+                new Book(4L, "Harry Potter", "Rowling", 20, category, LocalDateTime.now(), LocalDateTime.now()),
+                new Book(5L, "Wiedzmin", "Sapkowski", 2, category,  LocalDateTime.now(), LocalDateTime.now())
         );
 
         Iterable<Book> savedBooks = bookRepository.saveAll(booksToSave);
@@ -76,8 +79,8 @@ class BookRepositoryTest {
     }
 
     @Test
-    void testDeleteById() {
-        Book book1 = new Book(6L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
+    void testDeleteById(Category category) {
+        Book book1 = new Book(6L, "Anne of Green Gables", "Montgomery", 10, category, LocalDateTime.now(), LocalDateTime.now());
         Book book = bookRepository.save(book1);
         bookRepository.deleteById(book.getId());
         Optional<Book> removedBook = bookRepository.findById(book.getId());
@@ -85,11 +88,11 @@ class BookRepositoryTest {
     }
 
     @Test
-    void testDeleteAll() {
-        Book book1 = new Book(2L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
-        Book book2 = new Book(3L, "Wuthering Heights", "Bronte", 5, LocalDateTime.now(), LocalDateTime.now());
-        Book book3 = new Book(4L, "Harry Potter", "Rowling", 20, LocalDateTime.now(), LocalDateTime.now());
-        Book book4 = new Book(5L, "Wiedzmin", "Sapkowski", 2, LocalDateTime.now(), LocalDateTime.now());
+    void testDeleteAll(Category category) {
+        Book book1 = new Book(2L, "Anne of Green Gables", "Montgomery", 10, category,  LocalDateTime.now(), LocalDateTime.now());
+        Book book2 = new Book(3L, "Wuthering Heights", "Bronte", 5, category, LocalDateTime.now(), LocalDateTime.now());
+        Book book3 = new Book(4L, "Harry Potter", "Rowling", 20, category, LocalDateTime.now(), LocalDateTime.now());
+        Book book4 = new Book(5L, "Wiedzmin", "Sapkowski", 2, category, LocalDateTime.now(), LocalDateTime.now());
         Iterable<Book> savedBook = bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
         bookRepository.deleteAll();
         Iterable<Book> allBooks = bookRepository.findAll();
@@ -99,8 +102,8 @@ class BookRepositoryTest {
     }
 
     @Test
-    void testUpdate() {
-        Book book1 = new Book(6L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
+    void testUpdate(Category category) {
+        Book book1 = new Book(6L, "Anne of Green Gables", "Montgomery", 10, category, LocalDateTime.now(), LocalDateTime.now());
         Book book = bookRepository.save(book1);
         book.setTitle("Scarlet Letter");
         book.setAuthor("Hawthorne");

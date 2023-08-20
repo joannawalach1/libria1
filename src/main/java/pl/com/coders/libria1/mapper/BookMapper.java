@@ -20,8 +20,6 @@ public interface BookMapper {
     Book toEntity(BookCreateRequest bookCreateRequest);
 
 
-    @Mapping(target = "created", ignore = true)
-    @Mapping(target = "updated", ignore = true)
     BookView toView(Book book);
 
     default Category map(Long category) {

@@ -1,10 +1,7 @@
 package pl.com.coders.libria1.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.com.coders.libria1.domain.Category;
 import pl.com.coders.libria1.service.CategoryService;
 
@@ -12,12 +9,25 @@ import pl.com.coders.libria1.service.CategoryService;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @GetMapping
     public ResponseEntity<Iterable<Category>> getAllCat() {
         Iterable<Category> categories = categoryService.getAllCat();
         return ResponseEntity.ok(categories);
+    }
+
+    @GetMapping("/{id}")
+    public CategoryView getCat(@PathVariable Long id) {
+        return categoryService.getCat(id);
+    }
+
+    @PostMapping
+    public CategoryView createCat(@RequestBody CategoryCreateRequest categoryCreateRequest) {
+        return categoryService.saveCat(categoryCreateRequest);
     }
 }

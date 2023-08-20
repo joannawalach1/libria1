@@ -17,7 +17,7 @@ public class BookController {
 
     @GetMapping
     public BookView get(Long id) {
-        return bookService.get(id);
+        return bookService.getBookById(id);
     }
 
     @PostMapping
@@ -26,7 +26,7 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public List<BookView> getAllBooks(BookView bookView) {
+    public List<BookView> getAllBooks() {
         return bookService.getAll();
     }
 
@@ -39,9 +39,15 @@ public class BookController {
     }
 
     @DeleteMapping("/book/{id}")
-    public ResponseEntity<Void> removedBook(
+    public ResponseEntity<Void> removeBook(
             @PathVariable Long id) {
         bookService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/book/remove")
+    public ResponseEntity<Void> removeAllBooks() {
+        bookService.deleteAllBooks();
         return ResponseEntity.noContent().build();
     }
 

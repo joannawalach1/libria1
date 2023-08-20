@@ -1,6 +1,7 @@
 package pl.com.coders.libria1.service;
 
 import org.junit.Before;
+import org.junit.experimental.categories.Categories;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -11,6 +12,7 @@ import pl.com.coders.libria1.controller.BookCreateRequest;
 import pl.com.coders.libria1.controller.BookUpdateRequest;
 import pl.com.coders.libria1.controller.BookView;
 import pl.com.coders.libria1.domain.Book;
+import pl.com.coders.libria1.domain.Category;
 import pl.com.coders.libria1.mapper.BookMapper;
 import pl.com.coders.libria1.repository.BookRepository;
 
@@ -43,35 +45,35 @@ public class BookServiceTest {
         }
 
     @Test
-    void getById() {
+    void getById(Category category) {
         Long id = 1L;
-        Book testBook = new Book(1L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
+        Book testBook = new Book(1L, "Anne of Green Gables", "Montgomery", 10, category,  LocalDateTime.now(), LocalDateTime.now());
         when(bookRepository.findById(id)).thenReturn(Optional.of(testBook));
-        when(bookMapper.toView(testBook)).thenReturn(new BookView(1L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now()));
+        when(bookMapper.toView(testBook)).thenReturn(new BookView(1L, "Anne of Green Gables", "Montgomery",  10,"romance", LocalDateTime.now(), LocalDateTime.now()));
 
-        BookView result = bookService.get(id);
+        BookView result = bookService.getBookById(id);
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(id);
     }
 
     @Test
-    void create() {
-        BookCreateRequest bookCreateRequest = new BookCreateRequest("aaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaa", 2);
-        Book bookToSave = new Book("aaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaa", 2);
+    void create(Category category) {
+        BookCreateRequest bookCreateRequest = new BookCreateRequest(1L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now());
+        Book bookToSave = new Book(1L, "Anne of Green Gables", "Montgomery", 10, category,LocalDateTime.now(), LocalDateTime.now());
         when(bookMapper.toEntity(bookCreateRequest)).thenReturn(bookToSave);
-        when(bookRepository.save(any())).thenReturn(new Book(1L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now()));
-        when(bookMapper.toView(any())).thenReturn(new BookView(1L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now()));
+        when(bookRepository.save(any())).thenReturn(new Book(1L, "Anne of Green Gables", "Montgomery", 10, category, LocalDateTime.now(), LocalDateTime.now()));
+        when(bookMapper.toView(any())).thenReturn(new BookView(1L, "Anne of Green Gables", "Montgomery",10, "romance",  LocalDateTime.now(), LocalDateTime.now()));
         BookView result = bookService.create(bookCreateRequest);
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(1L);
     }
 
     @Test
-    void getAll() {
+    void getAll(Category category) {
             List<Book> testBooks = new ArrayList<>();
-            testBooks.add(new Book(1L, "Anne of Green Gables", "Montgomery", 10, LocalDateTime.now(), LocalDateTime.now()));
-            testBooks.add(new Book(2L, "Anne of Green Gables1", "Montgomery1", 10, LocalDateTime.now(), LocalDateTime.now()));
+            testBooks.add(new Book(1L, "Anne of Green Gables", "Montgomery", 10, category, LocalDateTime.now(), LocalDateTime.now()));
+            testBooks.add(new Book(2L, "Anne of Green Gables1", "Montgomery1", 10, category, LocalDateTime.now(), LocalDateTime.now()));
             when(bookRepository.findAll()).thenReturn(testBooks);
             List<BookView> result = bookService.getAll();
 
@@ -100,11 +102,11 @@ public class BookServiceTest {
 //    }
 
     @Test
-    void getByAuthor() {
+    void getByAuthor(Category category) {
             String author = "Rowling";
-            Book testBook = new Book(1L, "Harry Potter", "Rowling", 10, LocalDateTime.now(), LocalDateTime.now());
+            Book testBook = new Book(1L, "Harry Potter", "Rowling", 10, category, LocalDateTime.now(), LocalDateTime.now());
             when(bookRepository.findByAuthor(author)).thenReturn(Optional.of(testBook));
-            when(bookMapper.toView(testBook)).thenReturn(new BookView(1L, "Harry Potter", "Rowling", 10, LocalDateTime.now(), LocalDateTime.now()));
+            when(bookMapper.toView(testBook)).thenReturn(new BookView(1L, "Harry Potter", "Rowling", 10,"romance",  LocalDateTime.now(), LocalDateTime.now()));
 
             BookView result = bookService.getByAuthor(author);
 
@@ -113,11 +115,11 @@ public class BookServiceTest {
         }
 
     @Test
-    void getByTitle() {
+    void getByTitle(Category category) {
         String title = "Harry Potter";
-        Book testBook = new Book(1L, "Harry Potter", "Rowling", 10, LocalDateTime.now(), LocalDateTime.now());
+        Book testBook = new Book(1L, "Harry Potter", "Rowling", 10, category, LocalDateTime.now(), LocalDateTime.now());
         when(bookRepository.findByAuthor(title)).thenReturn(Optional.of(testBook));
-        when(bookMapper.toView(testBook)).thenReturn(new BookView(1L, "Harry Potter", "Rowling", 10, LocalDateTime.now(), LocalDateTime.now()));
+        when(bookMapper.toView(testBook)).thenReturn(new BookView(1L, "Harry Potter", "Rowling", 10, "romance", LocalDateTime.now(), LocalDateTime.now()));
 
         BookView result = bookService.getByAuthor(title);
 
