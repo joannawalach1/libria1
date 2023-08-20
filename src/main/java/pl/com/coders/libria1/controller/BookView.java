@@ -1,5 +1,7 @@
 package pl.com.coders.libria1.controller;
 
+import pl.com.coders.libria1.domain.Category;
+
 import java.time.LocalDateTime;
 
 public class BookView {
@@ -21,6 +23,9 @@ public class BookView {
     }
 
     public BookView() {
+    }
+
+    public BookView(Category category, String title, String author, int amount, LocalDateTime created, LocalDateTime updated) {
     }
 
     public Long getId() {
@@ -69,5 +74,13 @@ public class BookView {
 
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public void setCategory(Category category) {
+    }
+
+
+    public Long getCategory() {
+        return getCategory();
     }
 }
